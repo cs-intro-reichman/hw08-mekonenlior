@@ -53,16 +53,11 @@ class PlayList {
      */
     //// For an efficient implementation, use StringBuilder.
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < tracks.length; i++) {
-            // Append each track's data to the StringBuilder
-            sb.append(tracks[i]);
-            // Add a newline character after each track except the last one
-            if (i < tracks.length - 1) {
-                sb.append("\n");
-            }
+        String stringBuilder = "";
+        for (int i = 0; i < this.size; i++) {
+            stringBuilder += "\n" + this.getTrack(i);
         }
-        return sb.toString();
+        return stringBuilder;
     }
 
     /**
