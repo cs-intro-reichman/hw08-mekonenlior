@@ -39,7 +39,7 @@ class PlayList {
      * Otherwise, appends the track and returns true.
      */
     public boolean add(Track track) {
-        if (size == maxSize) {
+        if (maxSize == size) {
             return false;
         }
         this.tracks[size] = track;
@@ -54,8 +54,8 @@ class PlayList {
     //// For an efficient implementation, use StringBuilder.
     public String toString() {
         String stringBuilder = "";
-        for (int i = 0; i < size; i++) {
-            stringBuilder += "\n" + this.getTrack(i);
+        for (int i = 0; i < this.size; i++) {
+            stringBuilder += "/n" + this.getTrack(i);
         }
         return stringBuilder;
     }
@@ -74,11 +74,11 @@ class PlayList {
 
     /** Returns the total duration (in seconds) of all the tracks in this list. */
     public int totalDuration() {
-        int sumOfDuration = 0;
+        int totalDuration = 0;
         for (int i = 0; i < size; i++) {
-            sumOfDuration += tracks[i].getDuration();
+            totalDuration += tracks[i].getDuration();
         }
-        return sumOfDuration;
+        return totalDuration;
     }
 
     /**
@@ -87,9 +87,9 @@ class PlayList {
      */
     public int indexOf(String title) {
         for (int i = 0; i < size; i++) {
-            if (tracks[i].getTitle().equals(title))
-                ;
-            return i;
+            if (tracks[i].getTitle().equals(title)) {
+                return i;
+            }
         }
         return -1;
     }
@@ -130,12 +130,11 @@ class PlayList {
         if (size == i) {
             removeLast();
         } else {
-            // Remove the track at the specified index and close the gap in the array
-            for (int j = i; j < this.size - 1; j++) {
-                this.tracks[j] = this.tracks[j + 1];
-            }
             this.tracks[i] = null; // Set the last element to null
             size--; // Decrement the size of the playlist
+            for (int j = i; j < this.size - 1; j++) {
+                this.tracks[j] = this.tracks[j + 1]; // Remove the track at the specified index and close the gap in the array
+            }
         }
     }
 
@@ -157,14 +156,7 @@ class PlayList {
      * Removes the first track from this list. If the list is empty, does nothing.
      */
     public void removeFirst() {
-        if (tracks.length == 0) {
-            return;
-        }
-        Track[] newTracks = new Track[tracks.length - 1];
-        for (int i = 1; i < tracks.length; i++) {
-            newTracks[i - 1] = tracks[i];
-        }
-        tracks = newTracks;
+        this.remove(0);
     }
 
     /**
