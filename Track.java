@@ -15,7 +15,7 @@ class Track {
     /** Returns this track's data as "artist, title, minutes:seconds".
      *  For example, "John Lennon, Imagine, 3:07" */
     public String toString() {
-        return artist + ", " + title + ", " + duration;
+        return artist + ", " + title + ", " + formattedDuration(duration);
     }
 
     /** Returns this track's title. */
@@ -42,6 +42,7 @@ class Track {
     private String formattedDuration(int totalSeconds) {
         int minutes = totalSeconds / 60;
         int seconds = totalSeconds % 60;
-        return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        String secStr = seconds < 10 ? "0" + seconds : "" + seconds;
+        return minutes + ":" + secStr;
     }
 }
