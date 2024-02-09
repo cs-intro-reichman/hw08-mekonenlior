@@ -64,10 +64,11 @@ class PlayList {
      * Removes the last track from this list. If the list is empty, does nothing.
      */
     public void removeLast() {
-        if (this.size > 0) {
-            this.tracks[size - 1] = null;
-            this.size = size - 1;
+        if (this.size == 0) {
+            return;
         }
+        this.tracks[size - 1] = null;
+        this.size--;
     }
 
     /** Returns the total duration (in seconds) of all the tracks in this list. */
@@ -123,14 +124,14 @@ class PlayList {
      * does nothing and returns -1.
      */
     public void remove(int i) {
-        if (this.size == 0 || i < 0 || i >= this.size) {
+        if (this.size == 0 || i < 0 || i >= this.maxSize) {
             return;
         }
-        if (i == this.size - 1) {
-            this.removeLast();
+        if (i == this.size) {
+            removeLast();
         } else {
-            this.tracks[i] = null; // Removes the track in the i index fron the list 
-            this.size = size - 1; // Decreasing the actual number of tracks by 1
+            this.tracks[i] = null; // Removes the track in the i index fron the list
+            this.size = this.size - 1; // Decreasing the actual number of tracks by 1
             // “Closes the gap” in the array by moving all the tracks on the right of the deleted track one step to the left
             for (int j = i; j <= this.size; j++) {
                 this.tracks[j] = this.tracks[j + 1];
