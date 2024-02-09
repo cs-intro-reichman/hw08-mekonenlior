@@ -42,8 +42,8 @@ class PlayList {
         if (this.size == this.maxSize) {
             return false;
         }
-        this.tracks[size] = track;
-        this.size = size + 1;
+        this.tracks[size] = track; // Adding the track to the end of the list
+        this.size = size + 1; // Increasing the number of tracks by 1
         return true;
     }
 
@@ -55,7 +55,7 @@ class PlayList {
     public String toString() {
         String stringBuilder = "";
         for (int i = 0; i < this.size; i++) {
-            stringBuilder += "/n" + this.getTrack(i); // Returns each track in a seperate line
+            stringBuilder += "\n" + this.getTrack(i) ; // Returns each track in a separate line
         }
         return stringBuilder;
     }
@@ -65,8 +65,8 @@ class PlayList {
      */
     public void removeLast() {
         if (this.size > 0) {
-            this.tracks[size - 1] = null;
-            this.size = size - 1;
+            this.tracks[size - 1] = null; // Removes the last track from this list
+            this.size = size - 1; // Decreasing the actual number of tracks by 1
         }
     }
 
@@ -84,8 +84,8 @@ class PlayList {
      * If such a track is not found, returns -1.
      */
     public int indexOf(String title) {
-        for (int i = 0; i < size; i++) {
-            if (tracks[i].getTitle().equals(title)) {
+        for (int i = 0; i < this.size; i++) {
+            if (this.getTrack(i).getTitle().equals(title)) {
                 return i;
             }
         }
@@ -126,7 +126,7 @@ class PlayList {
      */
     public void remove(int i) {
         if (this.size == 0 || i < 0 || i > this.size) {
-            return; // If the list is empty or the index is out of bounds, do nothing
+            return;
         }
         if (i == this.size - 1) {
             removeLast();
@@ -161,7 +161,7 @@ class PlayList {
      */
     //// An elegant and terribly inefficient implementation.
     public void add(PlayList other) {
-        if ((this.getSize() + other.getSize()) <= this.getMaxSize()) {
+        if (this.getSize() + other.getSize() <= this.getMaxSize()) {
             for (int i = 0; i < other.size; i++) {
                 this.add(other.getTrack(i));
             }
@@ -178,7 +178,7 @@ class PlayList {
     private int minIndex(int start) {
         if (start >= 0 && start < this.size) {
             int index = start; // will be updated to the index of the shortest track found
-            int min = getTrack(start).getDuration(); // stores the duration of the shortest track found so far
+            int min = this.getTrack(start).getDuration(); // stores the duration of the shortest track found so far
             for (int i = start; i < this.size; i++) {
                 if (this.getTrack(i).getDuration() < min) {
                     index = i;
