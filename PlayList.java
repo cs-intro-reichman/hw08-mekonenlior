@@ -39,11 +39,11 @@ class PlayList {
      * Otherwise, appends the track and returns true.
      */
     public boolean add(Track track) {
-        if (this.size == this.maxSize) {
+        if (size == maxSize) {
             return false;
         }
         this.tracks[size] = track;
-        this.size = size + 1;
+        size = size + 1;
         return true;
     }
 
@@ -54,7 +54,7 @@ class PlayList {
     //// For an efficient implementation, use StringBuilder.
     public String toString() {
         String stringBuilder = "";
-        for (int i = 0; i < this.size; i++) {
+        for (int i = 0; i < size; i++) {
             stringBuilder += "\n" + this.getTrack(i);
         }
         return stringBuilder;
@@ -65,10 +65,11 @@ class PlayList {
      */
     public void removeLast() {
         if (this.size == 0) {
+            this.tracks[size - 1] = null;
+            this.size--;
+        } else {
             return;
         }
-        this.tracks[size - 1] = null;
-        this.size--;
     }
 
     /** Returns the total duration (in seconds) of all the tracks in this list. */
@@ -103,7 +104,7 @@ class PlayList {
      */
     public boolean add(int i, Track track) {
         // Check if i is negative or greater than the size of the list
-        if (i < 0 || i > this.size || i >= this.maxSize) {
+        if (i < 0 || i > maxSize || size == maxSize) {
             return false;
         }
         // Shift elements to the right to make space for the new element
@@ -111,8 +112,8 @@ class PlayList {
             this.tracks[j + 1] = this.tracks[j];
         }
         // Insert the track at index i
-        this.tracks[i] = track;
         this.size++; // Increment the size of the list
+        this.tracks[i] = track;
         return true;
     }
 
@@ -123,18 +124,18 @@ class PlayList {
      * does nothing and returns -1.
      */
     public void remove(int i) {
-        if (this.size == 0 || i < 0 || i >= this.size) {
+        if (size == 0 || i < 0 || i > maxSize) {
             return; // If the list is empty or the index is out of bounds, do nothing
         }
-        if (i == this.size - 1) {
-            removeLast(); // If removing the last track, use removeLast() method
+        if (size == i) {
+            removeLast();
         } else {
             // Remove the track at the specified index and close the gap in the array
             for (int j = i; j < this.size - 1; j++) {
                 this.tracks[j] = this.tracks[j + 1];
             }
-            this.tracks[this.size - 1] = null; // Set the last element to null
-            this.size--; // Decrement the size of the playlist
+            this.tracks[i] = null; // Set the last element to null
+            size--; // Decrement the size of the playlist
         }
     }
 
