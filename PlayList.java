@@ -85,8 +85,7 @@ class PlayList {
      * If such a track is not found, returns -1.
      */
     public int indexOf(String title) {
-        title = title.substring(0, 1).toUpperCase() + title.substring(1).toLowerCase();
-        for (int i = 0; i < tracks.length; i++) {
+        for (int i = 0; i < size; i++) {
             if (tracks[i].getTitle().equals(title))
                 ;
             return i;
@@ -124,18 +123,18 @@ class PlayList {
      * does nothing and returns -1.
      */
     public void remove(int i) {
-        if (this.size == 0 || i < 0 || i >= this.maxSize) {
-            return;
+        if (this.size == 0 || i < 0 || i >= this.size) {
+            return; // If the list is empty or the index is out of bounds, do nothing
         }
-        if (i == this.size) {
-            removeLast();
+        if (i == this.size - 1) {
+            removeLast(); // If removing the last track, use removeLast() method
         } else {
-            this.tracks[i] = null; // Removes the track in the i index fron the list
-            this.size = this.size - 1; // Decreasing the actual number of tracks by 1
-            // “Closes the gap” in the array by moving all the tracks on the right of the deleted track one step to the left
-            for (int j = i; j <= this.size; j++) {
+            // Remove the track at the specified index and close the gap in the array
+            for (int j = i; j < this.size - 1; j++) {
                 this.tracks[j] = this.tracks[j + 1];
             }
+            this.tracks[this.size - 1] = null; // Set the last element to null
+            this.size--; // Decrement the size of the playlist
         }
     }
 
