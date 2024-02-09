@@ -39,11 +39,11 @@ class PlayList {
      * Otherwise, appends the track and returns true.
      */
     public boolean add(Track track) {
-        if (maxSize == size) {
+        if (this.size == this.maxSize) {
             return false;
         }
         this.tracks[size] = track;
-        size = size + 1;
+        this.size = size + 1;
         return true;
     }
 
@@ -55,7 +55,7 @@ class PlayList {
     public String toString() {
         String stringBuilder = "";
         for (int i = 0; i < this.size; i++) {
-            stringBuilder += "/n" + this.getTrack(i);
+            stringBuilder += "/n" + this.getTrack(i); // Returns each track in a seperate line
         }
         return stringBuilder;
     }
@@ -64,19 +64,17 @@ class PlayList {
      * Removes the last track from this list. If the list is empty, does nothing.
      */
     public void removeLast() {
-        if (this.size == 0) {
+        if (this.size > 0) {
             this.tracks[size - 1] = null;
-            this.size--;
-        } else {
-            return;
+            this.size = size - 1;
         }
     }
 
     /** Returns the total duration (in seconds) of all the tracks in this list. */
     public int totalDuration() {
         int totalDuration = 0;
-        for (int i = 0; i < size; i++) {
-            totalDuration += tracks[i].getDuration();
+        for (int i = 0; i < this.size; i++) {
+            totalDuration += this.getTrack(i).getDuration();
         }
         return totalDuration;
     }
@@ -103,18 +101,21 @@ class PlayList {
      * returns true.
      */
     public boolean add(int i, Track track) {
-        // Check if i is negative or greater than the size of the list
-        if (i < 0 || i > maxSize || size == maxSize) {
-            return false;
+        if (i >= 0 && i <= this.size && this.size < this.maxSize) {
+            // Checks if the index i is in the end of list
+            if (i == this.size) {
+                this.add(track);
+            } else {
+                // Shifts all the elements of the tracks array one position to the right
+                for (int j = this.size; j > i; j--) {
+                    this.tracks[j] = this.tracks[j - 1];
+                }
+                this.tracks[i] = track; // Adds the new track in index i of this list
+                this.size = size + 1; // Increasing the actual number of tracks by 1
+            }
+            return true;
         }
-        // Shift elements to the right to make space for the new element
-        for (int j = this.size - 1; j >= i; j--) {
-            this.tracks[j + 1] = this.tracks[j];
-        }
-        // Insert the track at index i
-        this.size++; // Increment the size of the list
-        this.tracks[i] = track;
-        return true;
+        return false;
     }
 
     /**
@@ -124,17 +125,16 @@ class PlayList {
      * does nothing and returns -1.
      */
     public void remove(int i) {
-        if (size == 0 || i < 0 || i > maxSize) {
+        if (this.size == 0 || i < 0 || i > this.size) {
             return; // If the list is empty or the index is out of bounds, do nothing
         }
-        if (size == i) {
+        if (i == this.size - 1) {
             removeLast();
         } else {
             this.tracks[i] = null; // Set the last element to null
-            size--; // Decrement the size of the playlist
+            this.size = size - 1; // Decrement the size of the playlist
             for (int j = i; j < this.size - 1; j++) {
-                this.tracks[j] = this.tracks[j + 1]; // Remove the track at the specified index and close the gap in the
-                                                     // array
+                this.tracks[j] = this.tracks[j + 1]; // Remove the track at the specified index and close the gap in the array
             }
         }
     }
@@ -162,7 +162,7 @@ class PlayList {
     //// An elegant and terribly inefficient implementation.
     public void add(PlayList other) {
         if ((this.getSize() + other.getSize()) <= this.getMaxSize()) {
-            for (int i = 0; i < other.getSize(); i++) {
+            for (int i = 0; i < other.size; i++) {
                 this.add(other.getTrack(i));
             }
         }
