@@ -126,14 +126,16 @@ class PlayList {
         if (this.size == 0 || i < 0 || i >= this.size) {
             return;
         }
-        this.tracks[i] = null;
-        this.size--;
-        // Shift elements to the left to fill the gap
-        for (int j = i; j < this.size; j++) {
-            this.tracks[j] = this.tracks[j + 1];
+        if (i == this.size - 1) {
+            this.removeLast();
+        } else {
+            this.tracks[i] = null; // Removes the track in the i index fron the list 
+            this.size = size - 1; // Decreasing the actual number of tracks by 1
+            // “Closes the gap” in the array by moving all the tracks on the right of the deleted track one step to the left
+            for (int j = i; j <= this.size; j++) {
+                this.tracks[j] = this.tracks[j + 1];
+            }
         }
-        // Set the last element to null
-        this.tracks[this.size] = null;
     }
 
     /**
