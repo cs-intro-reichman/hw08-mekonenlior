@@ -133,7 +133,8 @@ class PlayList {
             this.tracks[i] = null; // Set the last element to null
             size--; // Decrement the size of the playlist
             for (int j = i; j < this.size - 1; j++) {
-                this.tracks[j] = this.tracks[j + 1]; // Remove the track at the specified index and close the gap in the array
+                this.tracks[j] = this.tracks[j + 1]; // Remove the track at the specified index and close the gap in the
+                                                     // array
             }
         }
     }
@@ -144,12 +145,7 @@ class PlayList {
      * is negative or too big for this list, does nothing.
      */
     public void remove(String title) {
-        for (int i = 0; i < tracks.length; i++) {
-            if (tracks[i].getTitle().equals(title)) {
-                this.tracks[i] = null;
-            }
-        }
-        return;
+        this.remove(indexOf(title));
     }
 
     /**
@@ -165,12 +161,10 @@ class PlayList {
      */
     //// An elegant and terribly inefficient implementation.
     public void add(PlayList other) {
-        if ((this.size + other.size) > this.maxSize) {
-            return;
-        }
-        for (int i = 0; i < tracks.length; i++) {
-            size++;
-            tracks[size + i] = other.tracks[i];
+        if ((this.getSize() + other.getSize()) <= this.getMaxSize()) {
+            for (int i = 0; i < other.getSize(); i++) {
+                this.add(other.getTrack(i));
+            }
         }
     }
 
@@ -184,7 +178,7 @@ class PlayList {
     private int minIndex(int start) {
         if (start >= 0 && start < this.size) {
             int index = start; // will be updated to the index of the shortest track found
-            int min = getTrack(index).getDuration(); // stores the duration of the shortest track found so far
+            int min = getTrack(start).getDuration(); // stores the duration of the shortest track found so far
             for (int i = start; i < this.size; i++) {
                 if (this.getTrack(i).getDuration() < min) {
                     index = i;
